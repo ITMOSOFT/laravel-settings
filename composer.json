@@ -2,6 +2,7 @@
     "name": "itmosoft/laravel-settings",
     "description": "Reusable database-backed application settings for Laravel.",
     "type": "library",
+    "license": "MIT",
     "require": {
         "php": "^8.3",
         "illuminate/support": "^12.0"

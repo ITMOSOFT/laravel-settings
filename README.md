@@ -112,4 +112,4 @@ or permission management.
 
 ## License
 
-License to be determined.
+This package is open-source software licensed under the [MIT License](LICENSE).
