@@ -1,0 +1,32 @@
+{
+    "name": "itmosoft/laravel-settings",
+    "description": "Reusable database-backed application settings for Laravel.",
+    "type": "library",
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ItmoSoft\\Settings\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ItmoSoft\\Settings\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ItmoSoft\\Settings\\SettingsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0"
+    }
+}
