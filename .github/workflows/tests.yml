@@ -14,9 +14,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Install PHP and dependencies
+      - name: Install PHP, Composer and extensions
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -24,28 +24,14 @@ jobs:
             php8.3-mbstring \
             php8.3-sqlite3 \
             php8.3-xml \
+            composer \
             unzip
-
-      - name: Install Composer
-        run: |
-          EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
-          php -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
-          ACTUAL_CHECKSUM="$(php -r 'echo hash_file("sha384", "composer-setup.php");')"
-
-          if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
-            echo "ERROR: Invalid Composer installer checksum"
-            rm composer-setup.php
-            exit 1
-          fi
-
-          php composer-setup.php --install-dir="$HOME/.local/bin" --filename=composer
-          rm composer-setup.php
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Verify PHP and Composer
         run: |
           php -v
           composer --version
+          php -r 'var_dump(PDO::getAvailableDrivers());'
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction
