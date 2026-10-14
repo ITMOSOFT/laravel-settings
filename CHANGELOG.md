@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-14
+
+### Added
+
+- Added Laravel 13 compatibility alongside Laravel 12.
+- Added CI test coverage for Laravel 12 and Laravel 13.
+
 ## [1.1.0] - 2026-10-14
 
 ### Added
