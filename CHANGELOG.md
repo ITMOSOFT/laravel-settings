@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-14
+
 ### Added
 - Add `all()` to retrieve all settings as an associative array ordered by key.
 - Add `setMany()` to create or update multiple settings in a bulk database operation.
