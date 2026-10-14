@@ -83,4 +83,70 @@ class Settings
             ->where('key', $key)
             ->delete() > 0;
     }
+
+    /**
+     * Retrieve all settings as a key-value array.
+     *
+     * @throws JsonException
+     */
+    public function all(): array
+    {
+        $settings = DB::table($this->table())
+            ->orderBy('key')
+            ->get(['key', 'value']);
+
+        $result = [];
+
+        foreach ($settings as $setting) {
+            $result[$setting->key] = json_decode(
+                $setting->value,
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Create or update multiple settings.
+     *
+     * Values are encoded before any database write is performed.
+     *
+     * @throws InvalidArgumentException
+     * @throws JsonException
+     */
+    public function setMany(array $settings): void
+    {
+        if ($settings === []) {
+            return;
+        }
+
+        $now = now();
+        $rows = [];
+
+        foreach ($settings as $key => $value) {
+            $key = (string) $key;
+
+            if ($key === '') {
+                throw new InvalidArgumentException(
+                    'The setting key cannot be empty.'
+                );
+            }
+
+            $rows[] = [
+                'key' => $key,
+                'value' => json_encode($value, JSON_THROW_ON_ERROR),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        DB::table($this->table())->upsert(
+            $rows,
+            ['key'],
+            ['value', 'updated_at']
+        );
+    }
 }

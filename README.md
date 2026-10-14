@@ -74,6 +74,50 @@ $deleted = Settings::forget('site_name');
 `forget()` returns `true` when a record was deleted and `false` when the
 key did not exist.
 
+
+### Retrieve all settings
+
+Retrieve all settings as an associative array. The result is ordered
+alphabetically by setting key.
+
+```php
+$settings = Settings::all();
+
+// Example:
+// [
+//     'maintenance_mode' => false,
+//     'site_name' => 'ITMOSOFT',
+//     'supported_languages' => ['en', 'ur'],
+// ]
+```
+
+If no settings exist, `all()` returns an empty array.
+
+### Store multiple settings
+
+Use `setMany()` to create or update several settings in one bulk
+database operation.
+
+```php
+Settings::setMany([
+    'site_name' => 'ITMOSOFT',
+    'maintenance_mode' => false,
+    'supported_languages' => ['en', 'ur'],
+    'max_users' => 100,
+]);
+```
+
+An empty array is a no-op:
+
+```php
+Settings::setMany([]);
+```
+
+Setting keys cannot be empty. Values must be JSON-encodable; invalid
+values throw a `JsonException`. All values are encoded before the
+bulk database write begins.
+
+
 ## Configuration
 
 The default configuration is:
@@ -112,4 +156,4 @@ or permission management.
 
 ## License
 
-This package is open-source software licensed under the [MIT License](LICENSE).
+This package is open-sourced software licensed under the [MIT license](LICENSE).

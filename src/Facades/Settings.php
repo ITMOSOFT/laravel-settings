@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static void set(string $key, mixed $value)
  * @method static bool has(string $key)
  * @method static bool forget(string $key)
+ * @method static array all()
+ * @method static void setMany(array $settings)
  *
  * @see \ItmoSoft\Settings\Settings
  */
