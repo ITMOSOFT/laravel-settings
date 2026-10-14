@@ -1,3 +1,4 @@
+
 name: Tests
 
 on:
@@ -10,7 +11,21 @@ on:
 
 jobs:
   tests:
+    name: Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - laravel: 12
+            illuminate: "^12.0"
+            testbench: "^10.0"
+            phpunit: "^11.0"
+          - laravel: 13
+            illuminate: "^13.0"
+            testbench: "^11.0"
+            phpunit: "^12.0"
 
     steps:
       - name: Checkout repository
@@ -33,11 +48,20 @@ jobs:
           composer --version
           php -r 'var_dump(PDO::getAvailableDrivers());'
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction
+      - name: Select dependency versions
+        run: |
+          composer require --no-update \
+            "illuminate/support:${{ matrix.illuminate }}"
+
+          composer require --dev --no-update \
+            "orchestra/testbench:${{ matrix.testbench }}" \
+            "phpunit/phpunit:${{ matrix.phpunit }}"
+
+      - name: Resolve dependencies for this Laravel version
+        run: composer update --with-all-dependencies --prefer-dist --no-interaction
 
       - name: Validate Composer
         run: composer validate --no-check-publish
 
       - name: Run tests
-        run: ./vendor/bin/phpunit
+        run: vendor/bin/phpunit
