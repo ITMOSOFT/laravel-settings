@@ -18,7 +18,7 @@ A lightweight, database-backed settings package for Laravel applications. Store,
 ## Requirements
 
 - PHP 8.3 or later.
-- Continuous support for Laravel 12 or Laravel 13.
+- Laravel 12 or Laravel 13.
 - A database supported by Laravel.
 
 ## Installation
